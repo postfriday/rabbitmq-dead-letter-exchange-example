@@ -1,0 +1,9 @@
+{
+    "name": "postfriday/rabbitmq-dead-letter-exchange-example",
+    "description": "Dead letter exchange example",
+    "type": "project",
+    "license": "None",
+    "require": {
+        "php-amqplib/php-amqplib": "^2.7"
+    }
+}

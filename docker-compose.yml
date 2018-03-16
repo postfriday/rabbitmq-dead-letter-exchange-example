@@ -1,0 +1,32 @@
+version: "3"
+services:
+  php:
+    build:
+      context: .docker/php
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+    volumes:
+      - .:/var/www/html
+    environment:
+      - PHP_MEMORY_LIMIT=512M
+      - PHP_IDE_CONFIG=serverName=rmq-dlx-example
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+  rabbitmq:
+    image: rabbitmq:3.7.4-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - 80:15672
+  composer:
+    restart: "no"
+    image: composer:1.5.2
+    command: install --ignore-platform-reqs
+    volumes:
+      - .:/app
+      - .docker/data/composer:/opt/composer
+    environment:
+      COMPOSER_HOME: /opt/composer
